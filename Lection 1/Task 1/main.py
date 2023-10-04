@@ -1,1 +1,1 @@
-print("Denis Hrebeniuk")
+print("Denis\nHrebeniuk")
