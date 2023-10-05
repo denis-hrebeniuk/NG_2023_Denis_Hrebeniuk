@@ -32,3 +32,5 @@ elif a != 0 and c != 0 and b == 0:
         print(f"First root: {first_root}, second root: {second_root}.")
 elif a != 0 and b != 0 and c == 0:
     print(f"Result: x = 0 or x = {opposite(b) / a}")
+else:
+    print("Error, you have specified incorrect input data")
