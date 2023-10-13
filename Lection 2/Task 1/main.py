@@ -1,11 +1,8 @@
-print("Enter any item (number, word, etc.). To finish entering items, enter \"stop this list\" as the item.")
+import sys
 
-arr = []
-while True:
-    element = input("Enter an element: ")
-    if element == "stop this list":
-        break
 
-    arr.append(element)
+sys.path.append("..") # Import util.py by changing directory to ../
+from util import request_list
 
-print(f"Your list of items (only unique items will be displayed): {list(set(arr))}")
+unique_list = list(set(request_list()))
+print(f"Your list of items (only unique items will be displayed): {unique_list}")
