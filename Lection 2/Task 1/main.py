@@ -8,4 +8,4 @@ while True:
 
     arr.append(element)
 
-print(f"Your list of items (only unique items will be displayed): {set(arr)}")
+print(f"Your list of items (only unique items will be displayed): {list(set(arr))}")
