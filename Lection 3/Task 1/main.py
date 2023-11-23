@@ -14,9 +14,6 @@ with open(file_name, "r") as file:
     print(f"Number of characters in the text: {len(content)}")
 
     for symbol in content:
-        if symbol in symbols:
-            symbols[symbol] += 1
-        else:
-            symbols[symbol] = 1
+        symbols[symbol] = content.count(symbol)
 
-print(symbols)
+print(f"Dict: {symbols}")
