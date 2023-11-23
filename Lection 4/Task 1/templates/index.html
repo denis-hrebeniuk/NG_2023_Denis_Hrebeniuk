@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 4</title>
+  </head>
+  <body>
+    <form action="/calculate" method="GET">
+      <input type="text" name="firstValue" placeholder="Enter first value" />
+      <br />
+      <input type="text" name="secondValue" placeholder="Enter second value" />
+      <br />
+      <br />
+      <label for="calculate-action">Select an action:</label>
+      <br />
+      <select id="calculate-action" name="calculateAction">
+        <option value="+">Add (+)</option>
+        <option value="-">Substract (-)</option>
+        <option value="*">Multiply (*)</option>
+        <option value="/">Divide (/)</option>
+      </select>
+      <br />
+      <br />
+      <button>Calculate</button>
+    </form>
+  </body>
+</html>
