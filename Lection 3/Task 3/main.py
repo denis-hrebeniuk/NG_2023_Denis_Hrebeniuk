@@ -2,14 +2,14 @@ import json
 import os
 
 
-def find_value_by_key(array, key):
-    for k, v in array.items():
-        if k == key:
-            print(f"\nYour key has been found in JSON (key: {key}):\n{v}")
+def find_value_by_key(array, desired_key):
+    for item_key, item_value in array.items():
+        if item_key == desired_key:
+            print(f"\nYour key has been found in JSON (key: {desired_key}):\n{item_value}")
             return
 
-        if type(v) is dict:
-            find_value_by_key(v, key)
+        if type(item_value) is dict:
+            find_value_by_key(item_value, desired_key)
 
 
 file_name = input("Enter the name of file, where you json stored: ")
