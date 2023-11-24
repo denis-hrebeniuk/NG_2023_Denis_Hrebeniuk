@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from markupsafe import Markup
 
 app = Flask(__name__)
 
@@ -27,7 +28,7 @@ def update_game_field(player_pos):
                 game_field += "."
         game_field += "<br>"
 
-    return game_field
+    return Markup(game_field)
 
 
 @app.route("/")
