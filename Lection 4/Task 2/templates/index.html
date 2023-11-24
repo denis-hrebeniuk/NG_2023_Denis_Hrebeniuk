@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 4</title>
+  </head>
+  <body>
+    <div align="center">
+      <form action="/doaction" method="GET">
+        <input name="player_pos" type="text" value="{{ player_pos }}" hidden />
+        <button name="action" type="submit" value="left">Left</button>
+        <button name="action" type="submit" value="up">Up</button>
+        <button name="action" type="submit" value="down">Down</button>
+        <button name="action" type="submit" value="right">Right</button>
+      </form>
+      <br />
+      <div>
+        <b>
+            {% autoescape false %}
+                {{game_field}}
+            {% endautoescape %}
+        </b>
+      </div>
+    </div>
+  </body>
+</html>
