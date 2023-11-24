@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 4</title>
+  </head>
+  <body>
+    <div align="center">
+      <form action="/changeimage" method="GET">
+        <input name="image_index" type="text" value="{{ image_index }}" hidden />
+        <button name="action" type="submit" value="previous">Previous</button>
+        <button name="action" type="submit" value="next">Next</button>
+      </form>
+      <br />
+      <img src="{{ url_for('static', filename='images/{}'.format(image_name)) }}" />
+    </div>
+  </body>
+</html>
