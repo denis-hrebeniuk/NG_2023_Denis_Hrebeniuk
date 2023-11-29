@@ -21,9 +21,9 @@ def update_game_field(player_pos):
     player_pos_x = player_pos - (GAME_FIELD_WIDTH * player_pos_y)
 
     for line in range(GAME_FIELD_HEIGHT):
-        for symbol_index in range(GAME_FIELD_WIDTH):
+        for symbol_index in range(GAME_FIELD_WIDTH if line == player_pos_y else GAME_FIELD_WIDTH + 3): # Extends the line so that it is no different from where the player is (fixing the length of the player symbol)
             if symbol_index == player_pos_x and line == player_pos_y:
-                game_field += "|"
+                game_field += "@"
             else:
                 game_field += "."
         game_field += "<br>"
