@@ -6,7 +6,6 @@ from os import environ
 import jwt
 import json
 
-API_URL = "http://127.0.0.1:8080"
 SECRET_JWT_KEY = environ.get("SECRET_JWT_KEY")
 
 
