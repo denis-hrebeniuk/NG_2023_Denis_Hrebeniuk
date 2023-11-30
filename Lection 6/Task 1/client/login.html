@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 6 - Login</title>
+  </head>
+  <body>
+    <input id="input-login" type="text" placeholder="Enter your login" /><br />
+    <input
+      id="input-password"
+      type="password"
+      placeholder="Enter your password"
+    /><br />
+    <br />
+    <button id="button-login">Login</button><br />
+    <div>Not registered yet? <a href="register.html">Click here!</a></div>
+  </body>
+  <script>
+    const buttonLogin = document.getElementById("button-login");
+    const inputLogin = document.getElementById("input-login");
+    const inputPassword = document.getElementById("input-password");
+
+    buttonLogin.addEventListener("click", () => {
+      if (!inputLogin.value || !inputPassword.value) {
+        alert("You have not filled in all the fields!");
+        return;
+      }
+
+      var xmlHttpRequest = new XMLHttpRequest();
+
+      var json = JSON.stringify({
+        login: inputLogin.value,
+        password: inputPassword.value,
+      });
+
+      xmlHttpRequest.open("POST", "http://192.168.31.135:5000/api/login", true);
+      xmlHttpRequest.setRequestHeader(
+        "Content-type",
+        "application/json; charset=utf-8"
+      );
+
+      xmlHttpRequest.onload = () => {
+        if (xmlHttpRequest.status != 200) {
+          alert("There was an error during login, please try again!");
+          return;
+        }
+
+        var response = JSON.parse(xmlHttpRequest.responseText);
+        if (response["error"]) {
+          alert(response["error"]);
+          return;
+        }
+
+        sessionStorage.setItem("token", response["token"]);
+
+        window.location.href = "index.html";
+      };
+
+      xmlHttpRequest.send(json);
+    });
+  </script>
+</html>

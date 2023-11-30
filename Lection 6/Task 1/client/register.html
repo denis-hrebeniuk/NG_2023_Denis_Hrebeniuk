@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 6 - Register</title>
+  </head>
+  <body>
+    <input id="input-login" type="text" placeholder="Enter your login" /><br />
+    <input
+      id="input-password"
+      type="password"
+      placeholder="Enter your password"
+    /><br />
+    <input
+      id="input-password-confirm"
+      type="password"
+      placeholder="Confirm your password"
+    /><br />
+    <br />
+    <button id="button-register">Register</button><br />
+    <div>Already registered? <a href="login.html">Click here!</a></div>
+  </body>
+  <script>
+    const buttonRegister = document.getElementById("button-register");
+    const inputLogin = document.getElementById("input-login");
+    const inputPassword = document.getElementById("input-password");
+    const inputPasswordConfirm = document.getElementById(
+      "input-password-confirm"
+    );
+
+    buttonRegister.addEventListener("click", () => {
+      if (
+        !inputLogin.value ||
+        !inputPassword.value ||
+        !inputPasswordConfirm.value
+      ) {
+        alert("You have not filled in all the fields!");
+        return;
+      }
+
+      if (inputPassword.value != inputPasswordConfirm.value) {
+        alert("Password and password confirmation do not match");
+        return;
+      }
+
+      if (inputLogin.value.length > 32) {
+        alert("Maximum login length is 32 characters!");
+        return;
+      }
+
+      if (inputPassword.value.length > 256) {
+        alert("Maximum password length is 256 characters!");
+        return;
+      }
+
+      var xmlHttpRequest = new XMLHttpRequest();
+
+      var json = JSON.stringify({
+        login: inputLogin.value,
+        password: inputPassword.value,
+      });
+
+      xmlHttpRequest.open(
+        "POST",
+        "http://192.168.31.135:5000/api/register",
+        true
+      );
+      xmlHttpRequest.setRequestHeader(
+        "Content-type",
+        "application/json; charset=utf-8"
+      );
+
+      xmlHttpRequest.onload = () => {
+        if (xmlHttpRequest.status != 200) {
+          alert("There was an error during registration, please try again!");
+          return;
+        }
+
+        var response = JSON.parse(xmlHttpRequest.responseText);
+        if (response["error"]) {
+          alert(response["error"]);
+          return;
+        }
+
+        sessionStorage.setItem("token", response["token"]);
+
+        window.location.href = "index.html";
+      };
+
+      xmlHttpRequest.send(json);
+    });
+  </script>
+</html>

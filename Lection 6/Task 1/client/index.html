@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lection 6 - Main</title>
+  </head>
+  <body>
+    <div id="messages">Loading...</div>
+    <br />
+    <input id="input-message" type="text" placeholder="Enter message" />
+    <button id="button-send">Send</button><br />
+    <button id="button-log-out">Log out of the account</button>
+  </body>
+  <script>
+    const userToken = sessionStorage.getItem("token");
+
+    const messages = document.getElementById("messages");
+    const inputMessage = document.getElementById("input-message");
+    const buttonSend = document.getElementById("button-send");
+    const buttonLogOut = document.getElementById("button-log-out");
+
+    const getMessages = () => {
+      var xmlHttpRequest = new XMLHttpRequest();
+
+      xmlHttpRequest.open(
+        "GET",
+        "http://192.168.31.135:5000/api/get-messages",
+        true
+      );
+      xmlHttpRequest.setRequestHeader("Authorization", `Bearer ${userToken}`);
+
+      xmlHttpRequest.onload = () => {
+        if (xmlHttpRequest.status == 401) {
+          window.location.href = "login.html";
+          return;
+        } else if (xmlHttpRequest.status != 200) {
+          messages.innerHTML = "Failed to load messages, reload page!";
+          return;
+        }
+
+        var response = JSON.parse(xmlHttpRequest.responseText);
+        if (response["error"]) {
+          messages.innerHTML = response["error"];
+          return;
+        }
+
+        data = "";
+        response.forEach((message) => {
+          data += `<b>${message["sender"]} [${message["messageDate"]}]:</b> ${message["message"]}<br />`;
+        });
+
+        messages.innerHTML = data;
+      };
+
+      xmlHttpRequest.send();
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!userToken) {
+        window.location.href = "login.html";
+        return;
+      }
+    });
+
+    buttonSend.addEventListener("click", () => {
+      if (!inputMessage.value) {
+        alert("The message can't be empty!");
+        return;
+      }
+
+      if (inputMessage.value.length > 256) {
+        alert("Maximum message length is 256 characters!");
+        return;
+      }
+
+      var xmlHttpRequest = new XMLHttpRequest();
+
+      var json = JSON.stringify({
+        message: inputMessage.value,
+      });
+
+      xmlHttpRequest.open(
+        "POST",
+        "http://192.168.31.135:5000/api/send-message",
+        true
+      );
+      xmlHttpRequest.setRequestHeader("Authorization", `Bearer ${userToken}`);
+      xmlHttpRequest.setRequestHeader(
+        "Content-type",
+        "application/json; charset=utf-8"
+      );
+
+      xmlHttpRequest.onload = () => {
+        if (xmlHttpRequest.status != 200) {
+          alert("There was an error during sending message, please try again!");
+          return;
+        }
+
+        var response = JSON.parse(xmlHttpRequest.responseText);
+        if (response["error"]) {
+          alert(response["error"]);
+          return;
+        }
+      };
+
+      xmlHttpRequest.send(json);
+      inputMessage.value = "";
+    });
+
+    buttonLogOut.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+
+    setInterval(() => {
+      getMessages();
+    }, 1000);
+  </script>
+</html>
